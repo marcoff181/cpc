@@ -271,17 +271,17 @@ void fm85Free(FM85 * self) {
 // This produces a full-size k-by-64 bit matrix from any Live sketch.
 
 U64 * bitMatrixOfSketch(FM85 * self) {
-    assert (self->isCompressed == 0);
+    assert(self->isCompressed == 0);
 
     Long k = (1LL << self->lgK);
     Short offset = self->windowOffset;
 
-    assert (offset >= 0 && offset <= 56);
+    assert(offset >= 0 && offset <= 56);
 
     Long i = 0;
     U64 * matrix = (U64 *) malloc((size_t) (k * sizeof(U64)));
 
-    assert (matrix != NULL);
+    assert(matrix != NULL);
 
     // Fill the matrix with default rows in which the "early zone" is filled with ones.
     // This is essential for the routine's O(k) time cost (as opposed to O(C)).

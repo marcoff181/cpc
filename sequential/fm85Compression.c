@@ -841,32 +841,32 @@ void uncompressSlidingFlavor (FM85 * target, FM85 * source) {
 // Note: in the final system, compressed and uncompressed sketches will have different types
 
 FM85 * fm85Compress (FM85 * source) {
-  assert (source->isCompressed == 0);
+    assert(source->isCompressed == 0);
 
-  FM85 * target = (FM85 *) malloc (sizeof(FM85));
-  assert (target != NULL);
+    FM85 * target = (FM85 *) malloc(sizeof(FM85));
+    assert(target != NULL);
 
-  target->lgK = source->lgK;
-  target->numCoupons = source->numCoupons;
-  target->windowOffset = source->windowOffset;
-  target->firstInterestingColumn = source->firstInterestingColumn;
-  target->mergeFlag = source->mergeFlag;
-  target->kxp = source->kxp;
-  target->hipEstAccum = source->hipEstAccum;
-  target->hipErrAccum = source->hipErrAccum;
+    target->lgK = source->lgK;
+    target->numCoupons = source->numCoupons;
+    target->windowOffset = source->windowOffset;
+    target->firstInterestingColumn = source->firstInterestingColumn;
+    target->mergeFlag = source->mergeFlag;
+    target->kxp = source->kxp;
+    target->hipEstAccum = source->hipEstAccum;
+    target->hipErrAccum = source->hipErrAccum;
 
-  target->isCompressed = 1;
+    target->isCompressed = 1;
 
-  // initialize the variables that belong in a compressed sketch
-  target->numCompressedSurprisingValues = 0;
-  target->compressedSurprisingValues = (U32 *) NULL;
-  target->csvLength = 0;
-  target->compressedWindow = (U32 *) NULL;
-  target->cwLength = 0;
+    // initialize the variables that belong in a compressed sketch
+    target->numCompressedSurprisingValues = 0;
+    target->compressedSurprisingValues = (U32 *) NULL;
+    target->csvLength = 0;
+    target->compressedWindow = (U32 *) NULL;
+    target->cwLength = 0;
 
-  // clear the variables that don't belong in a compressed sketch
-  target->slidingWindow = NULL;
-  target->surprisingValueTable = NULL;
+    // clear the variables that don't belong in a compressed sketch
+    target->slidingWindow = NULL;
+    target->surprisingValueTable = NULL;
 
     enum flavorType flavor = determineSketchFlavor(source);
     switch (flavor) {
@@ -874,29 +874,29 @@ FM85 * fm85Compress (FM85 * source) {
             // compressEmptyFlavor(target, source);
             break;
         case SPARSE:
-            compressSparseFlavor (target, source); 
-            assert (target->compressedWindow == NULL);
-            assert (target->compressedSurprisingValues != NULL);
+            compressSparseFlavor(target, source); 
+            assert(target->compressedWindow == NULL);
+            assert(target->compressedSurprisingValues != NULL);
             break;
         case HYBRID:  
-            compressHybridFlavor (target, source); 
-            assert (target->compressedWindow == NULL);
-            assert (target->compressedSurprisingValues != NULL);
+            compressHybridFlavor(target, source); 
+            assert(target->compressedWindow == NULL);
+            assert(target->compressedSurprisingValues != NULL);
             break;
         case PINNED:  
-            compressPinnedFlavor (target, source); 
-            assert (target->compressedWindow != NULL);
+            compressPinnedFlavor(target, source); 
+            assert(target->compressedWindow != NULL);
             //    assert (target->compressedSurprisingValues != NULL);
             break;
         case SLIDING: 
             compressSlidingFlavor(target, source); 
-            assert (target->compressedWindow != NULL);
+            assert(target->compressedWindow != NULL);
             //    assert (target->compressedSurprisingValues != NULL);
             break;
-        default: FATAL_ERROR ("Unknown sketch flavor");
+        default: FATAL_ERROR("Unknown sketch flavor");
     }
 
-  return target;
+    return target;
 }
 
 /***************************************************************/

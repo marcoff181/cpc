@@ -28,17 +28,17 @@ void ug85Free(UG85 * self) {
 /*******************************************************************************************/
 
 // This is used for testing purposes only.
-U64 * bitMatrixOfUG85 (UG85 * self, Boolean * needToFreePtr) {
-  if (self->bitMatrix != NULL) { // return the matrix
-    assert (self->accumulator == NULL);
-    *needToFreePtr = 0;  // or we could make a copy of the bitmatrix
-    return (self->bitMatrix);
-  }
-  else { // construct a matrix
-    assert (self->accumulator != NULL);    
-    *needToFreePtr = 1;
-    return (bitMatrixOfSketch (self->accumulator));
-  }
+U64 * bitMatrixOfUG85(UG85 * self, Boolean * needToFreePtr) {
+    if (self->bitMatrix != NULL) { // return the matrix
+        assert(self->accumulator == NULL);
+        *needToFreePtr = 0;  // or we could make a copy of the bitmatrix
+        return(self->bitMatrix);
+    }
+    else { // construct a matrix
+        assert(self->accumulator != NULL);    
+        *needToFreePtr = 1;
+        return bitMatrixOfSketch(self->accumulator);
+    }
 }
 
 /*******************************************************************************************/
