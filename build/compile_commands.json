@@ -1,0 +1,50 @@
+[
+{
+  "directory": "/home/marc/dev/cpc/build/libs/cpc",
+  "command": "/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc  -I/home/marc/dev/cpc/libs/cpc/include -I/home/marc/dev/cpc/libs/cpc/include/cpc -O3 -DNDEBUG -o CMakeFiles/cpc.dir/src/fm85.c.o -c /home/marc/dev/cpc/libs/cpc/src/fm85.c",
+  "file": "/home/marc/dev/cpc/libs/cpc/src/fm85.c",
+  "output": "libs/cpc/CMakeFiles/cpc.dir/src/fm85.c.o"
+},
+{
+  "directory": "/home/marc/dev/cpc/build/libs/cpc",
+  "command": "/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc  -I/home/marc/dev/cpc/libs/cpc/include -I/home/marc/dev/cpc/libs/cpc/include/cpc -O3 -DNDEBUG -o CMakeFiles/cpc.dir/src/fm85Compression.c.o -c /home/marc/dev/cpc/libs/cpc/src/fm85Compression.c",
+  "file": "/home/marc/dev/cpc/libs/cpc/src/fm85Compression.c",
+  "output": "libs/cpc/CMakeFiles/cpc.dir/src/fm85Compression.c.o"
+},
+{
+  "directory": "/home/marc/dev/cpc/build/libs/cpc",
+  "command": "/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc  -I/home/marc/dev/cpc/libs/cpc/include -I/home/marc/dev/cpc/libs/cpc/include/cpc -O3 -DNDEBUG -o CMakeFiles/cpc.dir/src/fm85Merging.c.o -c /home/marc/dev/cpc/libs/cpc/src/fm85Merging.c",
+  "file": "/home/marc/dev/cpc/libs/cpc/src/fm85Merging.c",
+  "output": "libs/cpc/CMakeFiles/cpc.dir/src/fm85Merging.c.o"
+},
+{
+  "directory": "/home/marc/dev/cpc/build/libs/cpc",
+  "command": "/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc  -I/home/marc/dev/cpc/libs/cpc/include -I/home/marc/dev/cpc/libs/cpc/include/cpc -O3 -DNDEBUG -o CMakeFiles/cpc.dir/src/fm85Util.c.o -c /home/marc/dev/cpc/libs/cpc/src/fm85Util.c",
+  "file": "/home/marc/dev/cpc/libs/cpc/src/fm85Util.c",
+  "output": "libs/cpc/CMakeFiles/cpc.dir/src/fm85Util.c.o"
+},
+{
+  "directory": "/home/marc/dev/cpc/build/libs/cpc",
+  "command": "/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc  -I/home/marc/dev/cpc/libs/cpc/include -I/home/marc/dev/cpc/libs/cpc/include/cpc -O3 -DNDEBUG -o CMakeFiles/cpc.dir/src/u32Table.c.o -c /home/marc/dev/cpc/libs/cpc/src/u32Table.c",
+  "file": "/home/marc/dev/cpc/libs/cpc/src/u32Table.c",
+  "output": "libs/cpc/CMakeFiles/cpc.dir/src/u32Table.c.o"
+},
+{
+  "directory": "/home/marc/dev/cpc/build/libs/cpc",
+  "command": "/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc  -I/home/marc/dev/cpc/libs/cpc/include -I/home/marc/dev/cpc/libs/cpc/include/cpc -O3 -DNDEBUG -o CMakeFiles/cpc.dir/src/icon.c.o -c /home/marc/dev/cpc/libs/cpc/src/icon.c",
+  "file": "/home/marc/dev/cpc/libs/cpc/src/icon.c",
+  "output": "libs/cpc/CMakeFiles/cpc.dir/src/icon.c.o"
+},
+{
+  "directory": "/home/marc/dev/cpc/build/tools",
+  "command": "/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc   -O3 -DNDEBUG -o CMakeFiles/generate_ips.dir/generate_ips.c.o -c /home/marc/dev/cpc/tools/generate_ips.c",
+  "file": "/home/marc/dev/cpc/tools/generate_ips.c",
+  "output": "tools/CMakeFiles/generate_ips.dir/generate_ips.c.o"
+},
+{
+  "directory": "/home/marc/dev/cpc/build/algorithms/sequential",
+  "command": "/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc -DXXH_INLINE_ALL -I/home/marc/dev/cpc/libs/cpc/include -I/home/marc/dev/cpc/libs/xxhash -O3 -DNDEBUG -o CMakeFiles/sequential.dir/main.c.o -c /home/marc/dev/cpc/algorithms/sequential/main.c",
+  "file": "/home/marc/dev/cpc/algorithms/sequential/main.c",
+  "output": "algorithms/sequential/CMakeFiles/sequential.dir/main.c.o"
+}
+]

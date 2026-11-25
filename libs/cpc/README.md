@@ -11,3 +11,6 @@
 - `icon.h`: implementations of the ICON estimator.
 
 - `fm85Merging.h`: 
+
+# Origin and modification
+This code comes from https://github.com/kevinjlang/cpc and is licensed as Apache-2.0. At the moment our modification consists in adding comments while studying the implementation and the removal of some tests files not needed in our context.

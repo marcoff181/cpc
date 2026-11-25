@@ -1,0 +1,1 @@
+/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/sequential.dir/link.d CMakeFiles/sequential.dir/main.c.o -o sequential  ../../libs/cpc/libcpc.a -lm

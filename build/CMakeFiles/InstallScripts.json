@@ -1,0 +1,12 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/marc/dev/cpc/build/cmake_install.cmake",
+		"/home/marc/dev/cpc/build/libs/xxhash/cmake_install.cmake",
+		"/home/marc/dev/cpc/build/libs/cpc/cmake_install.cmake",
+		"/home/marc/dev/cpc/build/tools/cmake_install.cmake",
+		"/home/marc/dev/cpc/build/algorithms/sequential/cmake_install.cmake",
+		"/home/marc/dev/cpc/build/algorithms/parallel/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
