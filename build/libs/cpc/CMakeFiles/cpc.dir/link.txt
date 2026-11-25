@@ -1,2 +1,0 @@
-/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/ar qc libcpc.a CMakeFiles/cpc.dir/src/fm85.c.o CMakeFiles/cpc.dir/src/fm85Compression.c.o CMakeFiles/cpc.dir/src/fm85Merging.c.o CMakeFiles/cpc.dir/src/fm85Util.c.o CMakeFiles/cpc.dir/src/u32Table.c.o CMakeFiles/cpc.dir/src/icon.c.o
-/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/ranlib libcpc.a

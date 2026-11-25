@@ -1,1 +1,0 @@
-/nix/store/8v97ngkcpfzgghwnnr7fsz33p2x22gy9-gcc-wrapper-14.3.0/bin/gcc -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/generate_ips.dir/link.d CMakeFiles/generate_ips.dir/generate_ips.c.o -o generate_ips

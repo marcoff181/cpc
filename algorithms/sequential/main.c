@@ -46,7 +46,7 @@ double elapsed_seconds(struct timespec start, struct timespec end) {
          (double)(end.tv_nsec - start.tv_nsec) / 1e9;
 }
 
-// TODO: could be moved to utils folder if needs to be used by multiple impls
+// TODO: remove ipv4 parsing and just hash the line
 bool parse_ipv4(const char *input_line, IPv4 address) {
 
   // Don't use uint8_t yet, you may run into overflows!
