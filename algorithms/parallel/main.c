@@ -1,11 +1,8 @@
 #include <inttypes.h>
-#include <math.h>
 #include <mpi.h>
 #include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "cpc/common.h"
 #include "cpc/fm85.h"
@@ -44,37 +41,27 @@ int main(int argc, char **argv) {
   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-  // stream elements per each process
-  uint64_t n = 40;
-  // number of unique elements
-  uint64_t m = 10;
+  if (argc < 6 || argc > 7) {
+    fprintf(stderr,
+            "Usage: %s <lgK> <unique_count> <total_count> <warmup_runs> "
+            "<measurement_runs> \n",
+            argv[0]);
+    return EXIT_FAILURE;
+  }
 
-  // if (argc < 3 || argc > 4) {
-  //   fprintf(stderr, "Usage: %s <input-file> <lgK> [--stream|--preload]\n",
-  //           argv[0]);
-  //   return EXIT_FAILURE;
-  // }
-  //
-  // const char *mode = argc == 4 ? argv[3] : "--stream";
-  // bool preload = strcmp(mode, "--preload") == 0;
-  // if (!preload && strcmp(mode, "--stream") != 0) {
-  //   fprintf(stderr, "Invalid input mode '%s': expected --stream or
-  //   --preload\n",
-  //           mode);
-  //   return EXIT_FAILURE;
-  // }
-
-  // parse + Validate lgK
-  const char *str_lgK = argv[1];
+  // parse argv
   long lgK = strtol(argv[1], NULL, 10);
   long K = 1 << lgK;
+  long unique = strtol(argv[2], NULL, 10);
+  long total = strtol(argv[3], NULL, 10);
+
+  // validate arguments
   if (lgK < 4 || lgK > 26) {
     fprintf(stderr, "Error: lgK must be an integer between 4 and 26\n");
     return EXIT_FAILURE;
   }
 
   RunResult result;
-  bool success;
 
   fm85Init();
   FM85 *sketch = fm85Make(lgK);
@@ -82,9 +69,9 @@ int main(int argc, char **argv) {
   U64 x;
   // fake stream: a loop over the naturals up to world_size*n is split
   // between processes
-  for (U64 i = rank * n; i < (rank * n) + n; i++) {
+  for (U64 i = rank * total; i < (rank * total) + total; i++) {
     // as long as n>m the unique count is guaranteed to be m
-    x = i % m;
+    x = i % unique;
     XXH128_hash_t hash = XXH3_128bits_withSeed(&x, sizeof(U64), HASH_SEED);
     fm85Update(sketch, hash.low64, hash.high64);
   }
@@ -115,27 +102,19 @@ int main(int argc, char **argv) {
     result.estimate = estimate;
     // result.preload_seconds = elapsed_seconds(start, loaded);
     // result.sketch_seconds = elapsed_seconds(loaded, estimated);
+    //
+    printf("Input:    %s\n", argv[1]);
+    printf("lgK:      %ld\n", lgK);
+
+    printf("Coupons:  %" PRId64 "\n", result.coupons);
+    printf("Estimate: %lf\n", result.estimate);
+    // if (preload) {
+    //   printf("Preload time: %.9f s\n", result.preload_seconds);
+    //   printf("Sketch time:  %.9f s\n", result.sketch_seconds);
+    // } else {
+    //   // printf("End-to-end time: %.9f s\n", end_to_end_seconds);
+    // }
   }
 
-  // double end_to_end_seconds =
-  //     success && !preload ? elapsed_seconds(start, monotonic_now()) : 0.0;
-
-  printf("Input:    %s\n", argv[1]);
-  printf("lgK:      %d\n", lgK);
-
-  if (!success) {
-    fprintf(stderr, "Something went wrong\n");
-    return EXIT_FAILURE;
-  }
-
-  printf("Coupons:  %" PRId64 "\n", result.coupons);
-  printf("Estimate: %lf\n", result.estimate);
-  // if (preload) {
-  //   printf("Preload time: %.9f s\n", result.preload_seconds);
-  //   printf("Sketch time:  %.9f s\n", result.sketch_seconds);
-  // } else {
-  //   // printf("End-to-end time: %.9f s\n", end_to_end_seconds);
-  // }
-
-  return 0;
+  MPI_Finalize();
 }
