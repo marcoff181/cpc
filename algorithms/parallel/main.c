@@ -114,6 +114,7 @@ int main(int argc, char **argv) {
     // } else {
     //   // printf("End-to-end time: %.9f s\n", end_to_end_seconds);
     // }
+    // TODO: print all input parameters here + result and decide on a format
   }
 
   MPI_Finalize();
