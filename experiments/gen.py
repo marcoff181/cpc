@@ -3,7 +3,7 @@
 usage: gen.py scaling.toml job_template.sh results/scaling/<ts>
 
 [pbs.product] -> cartesian product -> one rendered .sh (one PBS job) per row
-[cases.product] -> cartesian product -> generates lines of mpi run
+[mpirun.product] -> cartesian product -> generates lines of mpi run
 [pbs.derive] / [cases.derive]: {key: "expression"} evaluated per row, in the
     order the keys appear in the TOML
 
@@ -11,7 +11,6 @@ see job_template.sh to understand expected template structure
 """
 import itertools, sys, tomllib
 from pathlib import Path
-import jinja2
 
 def product(table):
     keys = list(table)
@@ -23,32 +22,38 @@ def derive(rows, exprs):
             row[key] = eval(expr, {"__builtins__": {}}, row)
     return rows
 
-toml_path, template_path, out = sys.argv[1:4]
+toml_path, out = sys.argv[1:3]
 cfg = tomllib.load(open(toml_path, "rb"))
 out = Path(out)
 out.mkdir(parents=True, exist_ok=True)
 
-bin_dir = cfg.get("bin_dir", "build/algorithms")
-template = jinja2.Template(Path(template_path).read_text(), trim_blocks=True, lstrip_blocks=True)
-
+bin_dir = cfg["bin_dir"]
 pbs_rows = derive(product(cfg["pbs"]["product"]), cfg["pbs"].get("derive", {}))
-case_rows = derive(product(cfg["cases"]["product"]), cfg["cases"].get("derive", {}))
+mpirun_rows = derive(product(cfg["mpirun"]["product"]), cfg["mpirun"].get("derive", {}))
 
-header, manifest, qsub = None, [], []
+manifest = []
+header = None
 for pbs in pbs_rows:
-    name = f"n{pbs['select']}_{pbs['mpiprocs']}x{pbs['ompthreads']}_{pbs['place']}"
-    script = out / f"{name}.sh"
-    script.write_text(template.render(bin_dir=bin_dir, cases=case_rows, **pbs))
-    script.chmod(0o755)
-    qsub.append(f"qsub {script}")
+    job_name = cfg["pbs"]["directives"]["N"].format(**pbs)
 
-    for i, case in enumerate(case_rows):
-        row = {"job": name, **pbs, "case": i, **case}
+    lines = ["#!/bin/bash"]
+    lines += [f"#PBS -{k} {v.format(**pbs)}" for k, v in cfg["pbs"]["directives"].items()]
+    lines.append(f"cd {out.resolve()}") # cd into the results/experimentname directory so we keep the outputs of the pbs scripts there
+    lines += cfg["init"]["commands"]
+    lines.append("")
+
+    for case in mpirun_rows:
+        row = {**pbs, "bin_dir": bin_dir, **case}
+        lines.append(cfg["mpirun"]["command"].format(**row))
+
         if header is None:
-            header = list(row)
+            header = ["job", *row]
             manifest.append("\t".join(header))
-        manifest.append("\t".join(str(row[k]) for k in header))
+        manifest.append("\t".join([job_name] + [str(row[k]) for k in header[1:]]))
+
+    script = out / f"{job_name}.sh"
+    script.write_text("\n".join(lines) + "\n")
+    script.chmod(0o755)
 
 (out / "manifest.tsv").write_text("\n".join(manifest) + "\n")
-(out / "qsub.sh").write_text("\n".join(qsub) + "\n")
 print(out)
