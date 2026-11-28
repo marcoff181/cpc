@@ -25,7 +25,6 @@
           mpi
           (pkgs.python3.withPackages (ps: [
             ps.matplotlib
-            ps.jinja2
           ]))
         ];
       };
