@@ -1,0 +1,45 @@
+# this file describes an entire experiment. 
+# [pbs.product] -> cartesian product -> one rendered .sh (one PBS job) per row
+# [mpirun.product] -> cartesian product -> generates lines of mpi run
+
+bin_dir = "build/algorithms"
+
+[pbs.directives]
+N        = "hpc_exp_n{select}_{mpiprocs}x{ompthreads}"   
+j        = "oe"
+q        = "shortHPC4DS"
+l = "walltime=10:00,mem=32gb,select={select}:ncpus={ncpus}:mpiprocs={mpiprocs}:ompthreads={ompthreads},place={place}"
+
+[pbs.product] #the pbs lines that we want to test with multiple options 
+select    = [1, 2, 4, 8]  # PBS chunks
+mpiprocs      = [16] 
+ompthreads = [1] # TODO for hybrid runs: determine this with scalability analysis on one node only, then fix it for rest of runs.
+place = ["scatter" , "pack"] #, "pack:excl", "scatter:excl"
+
+[pbs.derive]
+ncpus = "mpiprocs * ompthreads"
+np    = "select * mpiprocs"          # total MPI ranks, used in mpirun -np
+cores = "select * ncpus"
+
+[init]              
+commands = [
+    "set -euo pipefail", # flags that make bash exit for certain errors instead of silently continuing. TODO: check if interferes with module load 
+    "module load mpi/openmpi gcc",
+]
+
+[mpirun.product] # expanded inside each job
+algo            = ["parallel"]
+lg_n_items      = [10, 11]
+lg_unique_items = [9]                # TODO: could be a fraction of n_items
+lg_k            = [10, 12]
+warmup_reps     = [2]
+reps            = [10]
+
+[mpirun.derive]
+n_items      = "2 ** lg_n_items"     # assumption: lg_* means log2; adjust if not
+unique_items = "2 ** lg_unique_items"
+
+[mpirun]
+command = 'mpirun -np {np}  "{bin_dir}"/{algo}/{algo} {n_items} {unique_items} {lg_k} {warmup_reps} {reps}'
+# TODO: could add these to mpirun --map-by ppr:{mpiprocs}:node:PE={ompthreads} --bind-to core
+# TODO: check that openmp does not need OMPTHREADS variable passed

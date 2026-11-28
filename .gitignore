@@ -61,3 +61,10 @@ dkms.conf
 # direnv
 .direnv/
 .envrc
+
+# cmake/clang etc..
+build/
+.cache/
+
+# experiment results
+results/
